@@ -1,156 +1,207 @@
-RegimeAI: Machine Learning-Based Market Regime Detection and Forecasting
-Overview
+<div align="center">
 
-Financial markets exhibit distinct behavioral patterns such as bull markets, corrections, recoveries, and crashes. Identifying these hidden market states and forecasting future transitions is a fundamental challenge in quantitative finance.
+# 📈 RegimeAI
 
-This project develops an end-to-end machine learning framework to:
+### Machine Learning-Based Market Regime Detection and Forecasting
 
-Discover hidden market regimes using unsupervised learning
-Forecast future market regimes using supervised learning
-Analyze regime transitions and persistence
-Evaluate regime-aware portfolio allocation strategies
+*Discovering hidden market states with unsupervised learning, and forecasting their transitions with gradient boosting.*
 
-The framework combines Gaussian Mixture Models (GMM) for regime discovery and XGBoost for regime forecasting on 15 years of ETF market data.
+![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-77.8%25_Accuracy-FF6F00?style=flat)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-GMM-F7931E?style=flat&logo=scikit-learn&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat)
+![Status](https://img.shields.io/badge/Status-Complete-success?style=flat)
 
-Research Objective
+</div>
 
-The project aims to answer two key questions:
+---
 
-1. Can machine learning discover hidden market regimes?
+## 🧭 Overview
 
-Using engineered market features, an unsupervised learning model identifies distinct market states without predefined labels.
+Financial markets move through distinct behavioral regimes — **bull runs, corrections, recoveries, and crashes.** Spotting these hidden states as they form, and forecasting when they'll shift, is one of the foundational problems in quantitative finance.
 
-2. Can future market regimes be predicted?
+**RegimeAI** is an end-to-end ML framework that tackles this problem in four stages:
 
-Using historical market characteristics, supervised machine learning models forecast next-day market regimes.
+| Stage | What it does |
+|:---|:---|
+| 🔍 **Discover** | Uncover hidden market regimes using unsupervised learning |
+| 🔮 **Forecast** | Predict next-day market regimes using supervised learning |
+| 🔄 **Analyze** | Study regime transitions, persistence, and stability |
+| 💰 **Evaluate** | Test regime-aware portfolio allocation strategies |
 
-Dataset
+The pipeline pairs **Gaussian Mixture Models (GMM)** for regime discovery with **XGBoost** for regime forecasting, trained on 15 years of multi-asset ETF market data.
 
-Historical daily adjusted prices were collected using Yahoo Finance.
+---
 
-Assets used:
+## ❓ Research Questions
 
-Asset	Description
-SPY	S&P 500 ETF
-QQQ	Nasdaq-100 ETF
-TLT	20+ Year Treasury Bond ETF
-GLD	Gold ETF
+> **1. Can machine learning discover hidden market regimes?**
+> Using engineered market features, an unsupervised model identifies distinct market states — with no predefined labels.
 
-Time Period:
+> **2. Can future market regimes be predicted?**
+> Using historical market characteristics, supervised models forecast tomorrow's regime, today.
 
-2010 – Present
-Feature Engineering
+---
 
-Twelve market features were engineered from raw price data:
+## 📊 Dataset
 
-Return Features
-SPY Daily Return
-QQQ Daily Return
-TLT Daily Return
-GLD Daily Return
-Volatility Features
-20-Day Rolling Volatility
-60-Day Rolling Volatility
-Volatility Ratio
-Momentum Features
-30-Day Momentum
-90-Day Momentum
-Trend Features
-Price / 50-Day Moving Average
-Price / 200-Day Moving Average
-Cross-Asset Features
-60-Day Rolling Correlation (SPY vs QQQ)
-Methodology
-Phase 1: Market Regime Discovery
+Daily adjusted prices sourced via **Yahoo Finance**, spanning **2010 → Present** (15 years).
 
-Gaussian Mixture Models (GMM) were used to identify hidden market regimes.
+| Ticker | Asset Class |
+|:---:|:---|
+| 🟦 `SPY` | S&P 500 ETF |
+| 🟩 `QQQ` | Nasdaq-100 ETF |
+| 🟨 `TLT` | 20+ Year Treasury Bond ETF |
+| 🟧 `GLD` | Gold ETF |
 
-Model selection was performed using the Bayesian Information Criterion (BIC).
+---
 
-Result:
+## 🧩 Feature Engineering
 
-7 Distinct Market Regimes Identified
+**12 engineered features**, spanning four categories of market behavior:
 
-Example regimes:
+<table>
+<tr>
+<td valign="top" width="25%">
 
-Stable Bull Market
-Momentum Bull Market
-Recovery Rally
-Correction
-Transition
-Late Bull Market
-Crash Regime
-Phase 2: Market Regime Forecasting
+**📉 Returns**
+- SPY Daily Return
+- QQQ Daily Return
+- TLT Daily Return
+- GLD Daily Return
 
-A next-day regime prediction problem was formulated.
+</td>
+<td valign="top" width="25%">
 
-Target:
+**⚡ Volatility**
+- 20-Day Rolling Volatility
+- 60-Day Rolling Volatility
+- Volatility Ratio
 
-Today's Features
-        ↓
-Tomorrow's Market Regime
+</td>
+<td valign="top" width="25%">
 
-Models evaluated:
+**🚀 Momentum**
+- 30-Day Momentum
+- 90-Day Momentum
 
-Random Forest
-XGBoost
+</td>
+<td valign="top" width="25%">
 
-Training Procedure:
+**📐 Trend & Cross-Asset**
+- Price / 50-Day MA
+- Price / 200-Day MA
+- 60-Day SPY–QQQ Correlation
 
-Chronological Train/Test Split (80/20)
-No Data Shuffling
-Out-of-Sample Evaluation
-Results
-Regime Forecasting Performance
-Model	Accuracy
-Random Forest	76.2%
-XGBoost	77.8%
+</td>
+</tr>
+</table>
 
-XGBoost achieved the highest out-of-sample accuracy in forecasting future market regimes.
+---
 
-Portfolio Evaluation
+## ⚙️ Methodology
 
-A regime-aware asset allocation strategy was constructed using predicted market regimes.
+### Phase 1 — Market Regime Discovery 🔍
 
-Performance Metrics:
+Gaussian Mixture Models cluster the engineered feature space into latent market states. Model complexity (number of regimes) is chosen via the **Bayesian Information Criterion (BIC)**.
 
-Strategy	Sharpe Ratio	Max Drawdown
-Regime Strategy	0.716	-23.8%
-SPY Buy & Hold	0.733	-23.5%
+<div align="center">
 
-While the machine learning framework successfully identified and forecasted market regimes, manually designed allocation rules did not outperform a simple SPY benchmark, highlighting the difficulty of converting predictive signals into investment alpha.
+### 🏆 Result: 7 Distinct Market Regimes Identified
 
-Key Findings
-Market behavior can be segmented into economically meaningful hidden states.
-Volatility, momentum, and trend indicators are strong predictors of regime transitions.
-Gaussian Mixture Models effectively identify latent market structures.
-XGBoost achieved 77.8% multiclass out-of-sample accuracy.
-Accurate regime prediction alone does not guarantee superior portfolio performance.
-Technology Stack
-Programming Language
-Python
-Libraries
-pandas
-numpy
-yfinance
-scikit-learn
-xgboost
-matplotlib
-Machine Learning
-Gaussian Mixture Models (GMM)
-Random Forest
-XGBoost
-Future Improvements
+| 🟢 Stable Bull | 🔵 Momentum Bull | 🟣 Recovery Rally | 🟡 Late Bull |
+|:---:|:---:|:---:|:---:|
+| **🟠 Transition** | **🔴 Correction** | **⚫ Crash Regime** | |
 
-Potential extensions include:
+</div>
 
-Walk-forward validation
-SHAP explainability analysis
-Regime-specific portfolio optimization
-Hidden Markov Models (HMM)
-Reinforcement learning for dynamic allocation
-Multi-asset portfolio construction
-Repository Structure
+### Phase 2 — Market Regime Forecasting 🔮
+
+```
+   Today's Features  ──────▶  Tomorrow's Market Regime
+```
+
+Two models were benchmarked head-to-head on a **chronological 80/20 split** — no shuffling, fully out-of-sample:
+
+- ✅ Random Forest
+- ✅ XGBoost
+
+---
+
+## 🏁 Results
+
+### Regime Forecasting Performance
+
+<div align="center">
+
+| Model | Accuracy |
+|:---|:---:|
+| Random Forest | 76.2% |
+| 🥇 **XGBoost** | **77.8%** |
+
+</div>
+
+> **XGBoost wins** with the highest out-of-sample multiclass accuracy for next-day regime prediction.
+
+### Portfolio Evaluation 💼
+
+A regime-aware allocation strategy was built on top of the predicted regimes and benchmarked against buy-and-hold:
+
+<div align="center">
+
+| Strategy | Sharpe Ratio | Max Drawdown |
+|:---|:---:|:---:|
+| Regime Strategy | 0.716 | −23.8% |
+| SPY Buy & Hold | **0.733** | −23.5% |
+
+</div>
+
+> 🔎 **Key insight:** the ML framework discovered and forecasted regimes successfully — but hand-designed allocation rules *didn't* beat a simple SPY benchmark. A sharp reminder that **predictive accuracy ≠ investable alpha.**
+
+---
+
+## 🔑 Key Findings
+
+- ✅ Market behavior segments cleanly into **economically meaningful hidden states**
+- ✅ **Volatility, momentum, and trend** indicators are strong predictors of regime shifts
+- ✅ **GMM** effectively recovers latent market structure without supervision
+- ✅ **XGBoost** reaches **77.8%** out-of-sample multiclass accuracy
+- ⚠️ Accurate regime prediction alone **does not guarantee** superior portfolio performance
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/-Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/-NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/-scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![XGBoost](https://img.shields.io/badge/-XGBoost-FF6F00?style=for-the-badge)
+![Matplotlib](https://img.shields.io/badge/-Matplotlib-11557C?style=for-the-badge)
+
+</div>
+
+**Machine Learning:** Gaussian Mixture Models (GMM) · Random Forest · XGBoost
+**Data Source:** `yfinance`
+
+---
+
+## 🚧 Future Improvements
+
+- [ ] Walk-forward validation
+- [ ] SHAP explainability analysis
+- [ ] Regime-specific portfolio optimization
+- [ ] Hidden Markov Models (HMM)
+- [ ] Reinforcement learning for dynamic allocation
+- [ ] Multi-asset portfolio construction
+
+---
+
+## 📁 Repository Structure
+
+```
 RegimeAI/
 │
 ├── data/
@@ -165,16 +216,19 @@ RegimeAI/
 │   └── equity_curve.png
 │
 ├── README.md
-│
 └── requirements.txt
-Author
+```
+
+---
+
+<div align="center">
+
+### 👤 Author
 
 Developed as a quantitative finance and machine learning research project exploring market regime discovery, forecasting, and portfolio applications.
 
-Resume Title
+---
 
-Use this exact title on your resume:
+⭐ **If this project interests you, consider giving it a star!**
 
-RegimeAI: Market Regime Detection and Forecasting using Gaussian Mixture Models and XGBoost
-
-It's concise, technical, and immediately signals both finance and ML to recruiters.
+</div>

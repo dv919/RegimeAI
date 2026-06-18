@@ -224,11 +224,6 @@ RegimeAI/
 <div align="center">
 
 ### 👤 Author
-
-Developed as a quantitative finance and machine learning research project exploring market regime discovery, forecasting, and portfolio applications.
-
----
-
-⭐ **If this project interests you, consider giving it a star!**
+DEEKSHA V(ED23B015)
 
 </div>
